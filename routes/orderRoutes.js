@@ -1,5 +1,11 @@
 import express from "express";
-import { placeOrder, getAllOrders, updateOrderStatus, updatePaymentStatus,  getMyOrders } from "../controllers/orderController.js";
+import {
+  placeOrder,
+  getAllOrders,
+  updateOrderStatus,
+  updatePaymentStatus,
+  getMyOrders,
+} from "../controllers/orderController.js";
 
 import { protect } from "../middlewares/authMiddleware.js";
 
@@ -9,6 +15,5 @@ router.post("/", protect, placeOrder);
 router.get("/", getAllOrders);
 router.put("/:id", updateOrderStatus);
 router.put("/payment/:id", updatePaymentStatus);
-router.get("/my-orders", protect, getMyOrders);
 
 export default router;

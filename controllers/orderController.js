@@ -3,7 +3,7 @@ import Order from "../models/orderModel.js";
 // Create New Order (For Simple User)
 export const placeOrder = async (req, res) => {
   try {
-     const {
+    const {
       productName,
       price,
       quantity,
@@ -11,11 +11,12 @@ export const placeOrder = async (req, res) => {
       phone,
       paymentMethod,
       paymentId,
-      transactionId
+      transactionId,
     } = req.body;
 
     const newOrder = new Order({
-      user: req.user.userId, 
+      user: req.user._id,
+      // user: req.user.userId,
       productName,
       price,
       quantity,
@@ -31,7 +32,9 @@ export const placeOrder = async (req, res) => {
 
     await newOrder.save();
 
-    res.status(201).json({ success: true, message: "Order placed successfully!" });
+    res
+      .status(201)
+      .json({ success: true, message: "Order placed successfully!" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -40,7 +43,9 @@ export const placeOrder = async (req, res) => {
 // Get All Orders (For Admin Dashboard)
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().sort({ createdAt: -1 });
+    const orders = await Order.find()
+      .populate("user", "name email")
+      .sort({ createdAt: -1 });
     res.status(200).json({ success: true, orders });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -52,13 +57,16 @@ export const updateOrderStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    const updatedOrder = await Order.findByIdAndUpdate(id, { status }, { new: true });
+    const updatedOrder = await Order.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true },
+    );
     res.status(200).json({ success: true, updatedOrder });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 export const updatePaymentStatus = async (req, res) => {
   try {
@@ -68,7 +76,7 @@ export const updatePaymentStatus = async (req, res) => {
     const order = await Order.findByIdAndUpdate(
       id,
       { paymentStatus },
-      { new: true }
+      { new: true },
     );
 
     res.json({ success: true, order });
@@ -77,10 +85,10 @@ export const updatePaymentStatus = async (req, res) => {
   }
 };
 
-
 export const getMyOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user.userId })
+    const orders = await Order.find({ user: req.user._id })
+      .populate("user", "name email")
       .sort({ createdAt: -1 });
 
     res.status(200).json({ success: true, orders });
@@ -88,6 +96,3 @@ export const getMyOrders = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
-
-

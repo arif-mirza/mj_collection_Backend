@@ -67,14 +67,7 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-// if (email === "admin@gmail.com" && password === "admin123") {
-//       return res.status(200).json({
-//         success: true,
-//         message: "Admin Login successful",
-//         token: "admin-fixed-token-123", // Mock token
-//         user: { id: "admin-id", name: "Admin User", email: "admin@gmail.com" }
-//       });
-//     }
+
     // Validation
     if (!email || !password) {
       return res.status(400).json({

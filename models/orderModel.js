@@ -15,17 +15,13 @@ const orderSchema = new mongoose.Schema(
       enum: ["COD", "ONLINE"],
       required: true,
     },
-paymentId: String,        // nanoid generated
-    transactionId: String,    // user entered
+    paymentId: String, // nanoid generated
+    transactionId: String, // user entered
     paymentStatus: {
       type: String,
       enum: ["Pending", "Confirmed"],
       default: "Pending",
     },
-
-    paymentId: String,        // nanoid generated
-    transactionId: String,    // user entered
-
     status: {
       type: String,
       enum: ["Pending", "Completed"],
@@ -34,7 +30,7 @@ paymentId: String,        // nanoid generated
 
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Order", orderSchema);
