@@ -16,7 +16,6 @@ export const placeOrder = async (req, res) => {
 
     const newOrder = new Order({
       user: req.user._id,
-      // user: req.user.userId,
       productName,
       price,
       quantity,
