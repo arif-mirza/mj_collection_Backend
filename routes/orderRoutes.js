@@ -15,5 +15,6 @@ router.post("/", protect, placeOrder);
 router.get("/", getAllOrders);
 router.put("/:id", updateOrderStatus);
 router.put("/payment/:id", updatePaymentStatus);
+router.get("/my-orders", protect, getMyOrders);
 
 export default router;
